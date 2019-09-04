@@ -1,0 +1,42 @@
+{% extends "index/base2.html" %}
+{% block title %}
+<title>登录 - YLZ-Blog</title>
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-xs-4 col-xs-offset-4">
+            {% if not user.is_authenticated %}
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="text-align: center">
+                        <h3 class="panel-title"><b>欢迎登录YLZ-Blog</b></h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            {% for field in login_form %}
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                                <p class="text-danger">{{ field.errors.as_text }}</p>
+                            {% endfor %}
+                            <span class="pull-left text-danger">{{ login_form.non_field_errors }}</span><br>
+                            <div class="clearfix"></div>
+                            <a href="{% url 'index:forgot_password' %}" class="pull-left">忘记密码？</a>
+                           <input class="btn btn-primary pull-right" type="submit" value="登录">
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                   <h2><span>已登录，正在跳转到首页......</span></h2><br>
+                    <script type="text/javascript">
+                    　　function jumurl(){
+                    　　window.location.href = '/';
+                    　　}
+                    　　setTimeout(jumurl,3000);
+                　　</script>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+

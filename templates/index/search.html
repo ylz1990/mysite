@@ -1,0 +1,52 @@
+{% extends "index/base2.html" %}
+{% block title %}
+<title>搜索 - YLZ-Blog</title>
+{% endblock %}
+
+{% block main %}
+<div class="content-wrap">
+<div class="content">
+
+    {% if search_word == "" %}
+        <h3>您没有输入任何内容</h3>
+    {% else %}
+        <h3 style="line-height: 1.3">搜索“{{ search_word }}”找到 {{ search_blogs.count }} 个结果</h3>
+        <br>
+        {% for blog in page_of_blogs %}
+              <article class="excerpt excerpt-1" style="">
+                  <a class="focus" href="{% url 'blog:show' blog.id %}" title={{ blog.title }} target="_blank" ><img class="thumb" data-original="{{ blog.img_url.url }}" src="{{ blog.img_url.url }}" alt="{{ blog.title }}"  style="display: inline;"></a>
+                        <header><a class="cat" href="#" title={{ blog.blog_type }} target="_blank"  >{{ blog.blog_type }}<i></i></a>
+                            <h2><a href="{% url 'blog:show' blog.id %}" title={{ blog.title }} target="_blank" >{{ blog.title }}</a>
+                            </h2>
+                        </header>
+                    <p class="meta">
+                        <time class="time"><i class="glyphicon glyphicon-time"></i> {{ blog.created_time |date:"Y-m-d" }}</time>
+                        <span class="views"><i class="glyphicon glyphicon-eye-open"></i> {{ blog.read_num }}</span> <span class="item article-meta-source" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="来源：{{ blog.author }}"><i class="glyphicon glyphicon-globe"></i> {{ blog.author }}</span>
+                    </p>
+                    <p class="note">{{ blog.text |safe }}</p>
+                </article>
+        {% empty %}
+            <br>
+            <h4>未找到任何内容，换个关键词试试吧</h4>
+        {% endfor %}
+        <br>
+        <div class="row" style="display: flex; justify-content: center;">
+            {% if page_of_blogs.has_previous %}
+                <a class="btn btn-default"
+                   href="{% url 'index:search' %}?wd={{ search_word }}&page={{ page_of_blogs.previous_page_number }}">
+                    上一页
+                </a>
+            {% endif %}
+
+            {% if page_of_blogs.has_next %}
+            <a class="btn btn-default"
+               href="{% url 'index:search' %}?wd={{ search_word }}&page={{ page_of_blogs.next_page_number }}">
+                下一页
+            </a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+</div>
+</div>
+{% endblock %}

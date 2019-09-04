@@ -1,0 +1,35 @@
+{% extends "index/base2.html" %}
+{% block title %}
+<title>{{ page_title }}</title>
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-xs-4 col-xs-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="text-align: center">
+                        <h3 class="panel-title"><b>{{ form_title }}</b></h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                {% if not field.is_hidden %}
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {% endif %}
+                                {{ field }}
+                                <p class="text-danger">{{ field.errors.as_text }}</p>
+                            {% endfor %}
+                            <span id="tip" class="pull-left text-danger">{{ form.non_field_errors }}</span><br>
+                            <div class="clearfix"></div>
+                                {% block other_buttons %}{% endblock %}
+                               <input class="btn btn-primary pull-right" type="submit" value="{{ submit_text }}" >&nbsp;&nbsp;&nbsp;
+                               <button class="btn pull-right" style="margin-right: 5px" onclick="window.location.href = '{{ return_back_url }}'">返回</button>
+                        </form>
+                    </div>
+                </div>
+        </div>
+    </div>
+{% endblock %}
+
+

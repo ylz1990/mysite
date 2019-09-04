@@ -1,0 +1,22 @@
+{% extends "index/base2.html" %}
+{% block title %}
+<title>错误提示 - YLZ-Blog</title>
+{% endblock %}
+
+{% block main %}
+<div class="panel">
+<div class="text-center">
+  <h2><stong>{{ message }}</stong></h2>
+    <span>正在跳转......</span>
+    <script type="text/javascript">
+        window.location.href = "/";
+    </script>
+	<div class="padding-big"> <a href="{% url 'index:index' %}" class="btn btn-primary" >返回首页</a>
+	</div>
+	<div class="padding-big"> <a href="{% url 'index:index' %}" title="YLZ-Blog个人独立博客网站" >YLZ-Blog个人独立博客网站</a>
+	</div>
+	<div class="padding-big"> <a href="{% url 'blog:blog' %}" title="YLZ-Blog主题栏目" >YLZ-Blog主题栏目</a>
+	</div>
+</div>
+</div>
+{% endblock %}

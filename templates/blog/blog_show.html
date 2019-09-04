@@ -1,0 +1,224 @@
+{% extends "index/base.html" %}
+
+{% block title %}
+<title>{{ blog.title }} - YLZ-Blog </title>
+{% endblock %}
+
+{% block meta %}
+<meta name="keywords" content="{{ content }}">
+<meta name="description" content="{{ blog.title }}">
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="../../static/ckeditor/ckeditor-init.js"></script>
+<script type="text/javascript" src="../../static/ckeditor/ckeditor/ckeditor.js"></script>
+{% endblock %}
+
+{% block main %}
+<section class="container">
+<div class="content-wrap">
+<div class="content">
+  <header class="article-header">
+	<h1 class="article-title"><a href="#" title="{{ blog.title }}" >{{ blog.title }}</a></h1>
+	<div class="article-meta"> <span class="item article-meta-time">
+	  <time class="time" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="发表时间：{{ blog.created_time }}"><i class="glyphicon glyphicon-time"></i> {{ blog.created_time }}</time>
+	  </span> <span class="item article-meta-source" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="来源：{{ blog.author }}"><i class="glyphicon glyphicon-globe"></i> {{ blog.author }}</span> <span class="item article-meta-category" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{{ blog.blog_type }}"><i class="glyphicon glyphicon-list"></i> <a href="#" title="MZ-NetBlog主题" >{{ blog.blog_type }}</a></span> <span class="item article-meta-views" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="浏览量：{{blog.read_num }}"><i class="glyphicon glyphicon-eye-open"></i> {{ blog.read_num }}</span> <span class="item article-meta-comment" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="评论量：{{ comments_num }}"><i class="glyphicon glyphicon-comment"></i> {{ comments_num }}</span> </div>
+  </header>
+  <article class="article-content">
+	<p><img data-original="../../static/images/dream.png" src="../../static/images/dream.png" alt="YLZ个人博客" /></p>
+	<p>{{ blog.content | safe }}</p>
+    <h4><b>文章若对你有帮助，不妨扫一扫右侧的二维码打赏支持我 ^_^</b></h4><br>
+	<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a></div>
+
+		  <script>                  window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "32" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=0.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </article>
+
+  <div class="article-tags">标签：
+	  {% for tag in blog.tags.all %}
+	  <a href="{% url 'blog:list' %}?tag={{ tag }}" rel="tag" >{{ tag.name }}</a>
+	   {% endfor %}
+  </div>
+    <div class="title">
+        {% if previoud_new %}
+            <h4>上一篇：<a href="{% url 'blog:show' previoud_new.pk %}">{{ previoud_new.title }}</a></h4><br>
+        {% else %}
+           <h4>上一篇：暂无</h4><br>
+       {% endif %}
+        {% if next_new %}
+            <h4>下一篇：<a href="{% url 'blog:show' next_new.pk %}">{{ next_new.title }}</a></h4><br>
+        {% else %}
+           <h4>下一篇：暂无最新</h4><br>
+       {% endif %}
+    </div>
+  <div class="relates">
+	<div class="title">
+	  <h3>相关推荐</h3>
+	</div>
+	<ul>
+        {% for blog in blogs %}
+	  <li><a href="{% url 'blog:show' blog.id %}" title="{{ blog.title }}" >{{ blog.title }}</a></li>
+        {% endfor %}
+	</ul>
+  </div>
+  <div class="title" id="comment">
+	<h3>您好：{{ user.username }} 欢迎评论 (总共有{{ comments.count }}评论)</h3>
+  </div>
+  <div id="respond">
+      {% if user.is_authenticated %}
+          <form id="comment-form"  action="{% url 'update_comment' %}" method="POST" style="overflow:hidden">{% csrf_token %}
+                <div id="reply_content_container" style="display:none;">
+                    <p>回复：</p>
+                    <div id="reply_content"></div>
+                </div>
+              {% for field in comment_form %}
+                    {{ field }}
+                {% endfor %}
+                <span id="comment_error" class="text-danger pull-left"></span><br>
+                <input type="submit" class="btn btn-primary pull-right"  value="评论">
+		</form>
+      {% else %}
+          未登录，登录之后方可评论
+          <a class="btn btn-primary" href="{% url 'index:login' %}?from={{ request.get_full_path }}">登录</a>
+          <span> or </span>
+          <a class="btn btn-danger" href="{% url 'index:register' %}?from={{ request.get_full_path }}">注册</a>
+          <div>
+              <form id="comment-form" name="comment-form" action="" method="POST">{% csrf_token %}
+                <div class="comment">
+                    <div class="comment-box">
+                        <textarea placeholder="您还未登录，请先登录后再评论。" name="comment-textarea" id="comment-textarea" cols="100%" rows="3" tabindex="3"></textarea>
+                    </div>
+                </div>
+            </form>
+          </div>
+      {% endif %}
+	</div>
+  <div id="postcomments">
+	<div id="comment_list" class="commentlist">
+        {% for comment in comments %}
+            <li class="comment-content">
+                <div id="root_{{ comment.id }}" class="comment comment-main">
+                <p><span class="address" >{{ comment.user.username }}</span><br>
+                    <div id="comment_{{ comment.pk }}">{{ comment.text|safe }}</div>
+                    <a class="pull-right" href="javascript:reply({{ comment.pk }});">回复</a>
+                    <span class="time pull-right">({{ comment.comment_time|date:"Y-m-d H:i:s" }})</span>
+                </p>
+                {% for reply in comment.root_comment.all %}
+                    <div class="reply" style="margin-left: 2em;">
+                        <p><span class="address" >{{ reply.user.username }}</span>回复{{ reply.reply_to.username }}：
+                            <div id="comment_{{ reply.pk }}">{{ reply.text|safe }}</div><a class="pull-right" href="javascript:reply({{ reply.pk }});">回复</a>
+                            <span class="time pull-right">({{ reply.comment_time|date:"Y-m-d H:i:s" }})</span></p>
+                    </div>
+                {% endfor %}
+            </div></li>
+        {% empty %}
+            <span id="no_comment">暂无评论</span>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+</div>
+    {% endblock %}
+
+    {% block aside %}
+<aside class="sidebar">
+<div class="fixed">
+  <div class="widget widget-tabs">
+	<ul class="nav nav-tabs" role="tablist">
+	  <li role="presentation" class="active"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab" draggable="false">统计信息</a></li>
+	  <li role="presentation"><a href="#contact" aria-controls="contact" role="tab" data-toggle="tab" draggable="false">联系站长</a></li>
+	</ul>
+	<div class="tab-content">
+	  <div role="tabpanel" class="tab-pane contact active" id="notice">
+		<h2>日志总数:
+			  {{ news.count }}篇
+		  </h2>
+		  <h2><span id="runtime_span"></span>
+                <script type="text/javascript">function show_runtime(){window.setTimeout("show_runtime()",1000);X=new
+                Date("8/13/2019 0:00:00");
+                Y=new Date();T=(Y.getTime()-X.getTime());M=24*60*60*1000;
+                a=T/M;A=Math.floor(a);b=(a-A)*24;B=Math.floor(b);c=(b-B)*60;C=Math.floor((b-B)*60);D=Math.floor((c-C)*60);
+                runtime_span.innerHTML="网站运行: "+A+"天"+B+"小时"+C+"分"+D+"秒"}show_runtime();</script></h2>
+	  </div>
+		<div role="tabpanel" class="tab-pane contact" id="contact">
+		  <h2>QQ:
+			  <a href="" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="" draggable="false" data-original-title="QQ:827937539">827937539</a>
+		  </h2>
+		  <h2>Email:
+		  <a href="mailto:827937539@qq.com" target="_blank" data-toggle="tooltip" rel="nofollow" data-placement="bottom" title="" draggable="false" data-original-title="Email:827937539@qq.com">827937539@qq.com</a></h2>
+	  </div>
+	</div>
+  </div>
+  <div class="widget widget_search">
+	<form class="navbar-form" action="" method="post">
+	  <div class="input-group">
+		<input type="text" name="keyword" class="form-control" size="35" placeholder="请输入关键字" maxlength="15" autocomplete="off">
+		<span class="input-group-btn">
+		<button class="btn btn-default btn-search" name="search" type="submit">搜索</button>
+		</span> </div>
+	</form>
+  </div>
+</div>
+     {% endblock %}
+
+{% block script_extends %}
+    <script type="text/javascript">
+        $("#comment-form").submit(function(){
+            // 判断是否为空
+            $("#comment_error").text('');
+            if(CKEDITOR.instances["id_text"].document.getBody().getText().trim()==''){
+                $("#comment_error").text('评论内容不能为空');
+                return false;
+            }
+
+            // 更新数据到textarea
+            CKEDITOR.instances['id_text'].updateElement();
+
+            // 异步提交
+            $.ajax({
+                url: "{% url 'update_comment' %}",
+                type: 'POST',
+                data: $(this).serialize(),
+                cache: false,
+                success: function(data){
+                    console.log(data);
+                    if(data['status']=="SUCCESS"){
+                        if($('#reply_comment_id').val()=='0'){
+                            // 插入评论
+                            var comment_html = '<div id="root_' + data['pk'] + '" class="comment"><span>' + data['username'] + '</span><span> (' + data['comment_time'] + ')：</span><div id="comment_' + data['pk'] + '">' + data['text'] + '</div><a href="javascript:reply(' + data['id'] + ');">回复</a></div>';
+                            $("#comment_list").prepend(comment_html);
+                        }else{
+                            // 插入回复
+                            var reply_html ='<div class="reply"><span>' + data['username'] + '</span><span> (' + data['comment_time'] + ')</span><span> 回复 </span><span>' + data['reply_to'] + '：</span><div id="comment_' + data['id'] + '">' + data['text'] + '</div><a href="javascript:reply(' + data['id'] + ');">回复</a></div>';
+                            $("#root_" + data['root_pk']).append(reply_html);
+                        }
+
+                        // 清空编辑框的内容
+                        CKEDITOR.instances['id_text'].setData('');
+                        $('#reply_content_container').hide();
+                        $('#reply_comment_id').val('0');
+                        $('#no_comment').remove();
+                    }else{
+                        // 显示错误信息
+                        $("#comment_error").text(data['message']);
+                    }
+                },
+                error: function(xhr){
+                    console.log(xhr);
+                }
+            });
+            return false;
+        });
+        function reply(reply_comment_id){
+            // 设置值
+            $('#reply_comment_id').val(reply_comment_id);
+            var html = $("#comment_" + reply_comment_id).html();
+            $('#reply_content').html(html);
+            $('#reply_content_container').show();
+
+            $('html').animate({scrollTop: $('#comment-form').offset().top - 60}, 300, function(){
+                CKEDITOR.instances['id_text'].focus();
+            });
+        }
+    </script>
+
+{% endblock %}

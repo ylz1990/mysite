@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block title %}
+<title>YLZ个人博客 -- 勤记录 懂分享</title>
+    {% endblock %}
+{% block meta %}
+<meta name="keywords" content="开源社区,python开源,个人博客,财经主题，五味生活，新闻资讯">
+<meta name="description" content="YLZ的个人网站，记录生活的瞬间，分享python学习的心得，提供最新的财经新闻资讯，静静寻觅生活的美好">
+{% endblock %}
+{% block script %}
+{% endblock %}
+<link rel="stylesheet" type="text/css" href="../../static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../../static/css/nprogress.css">
+<link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+<link rel="stylesheet" type="text/css" href="../../static/css/font-awesome.min.css">
+<link rel="apple-touch-icon-precomposed" href="../../static/images/icon.png">
+<link rel="shortcut icon" href="../../static/images/favicon.ico">
+<script src="../../static/js/jquery-2.1.4.min.js"></script>
+<script src="../../static/js/nprogress.js"></script>
+<script src="../../static/js/jquery.lazyload.min.js"></script>
+
+<!--[if gte IE 9]>
+  <script src="../../static/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+  <script src="../../static/js/html5shiv.min.js" type="text/javascript"></script>
+  <script src="../../static/js/respond.min.js" type="text/javascript"></script>
+  <script src="../../static/js/selectivizr-min.js" type="text/javascript"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+  <script>window.location.href='upgrade-browser.html';</script>
+<![endif]-->
+</head>
+<body class="user-select">
+<header class="header">
+<nav class="navbar navbar-default" id="navbar">
+<div class="container">
+  <div class="header-topbar hidden-xs link-border">
+	<ul class="site-nav topmenu">
+	  <li><a href="{% url 'blog:tags' %}" rel="nofollow">标签云</a></li>
+		<li><a href="" rel="nofollow" >读者墙</a></li>
+		<li><a href="" rel="nofollow" title="RSS订阅" >
+			<i class="fa fa-rss">
+			</i> RSS订阅
+		</a></li>
+        {% if user.is_authenticated %}
+        <li class="dropdown">
+          用户名：<span class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user }} <span class="caret"></span></span>
+          <ul class="dropdown-menu">
+              <li><a href="{% url 'index:message' %}">个人资料</a></li> <br>
+              {% if user.is_staff or user.is_superuser %}
+                <li><a href="{% url 'admin:index' %}">后台管理</a></li> <br>
+              {% endif %}
+              <li><a href="{% url 'index:logout' %}?form={{ request.get_full_path }}" >退出</a></li>
+          </ul>
+        </li>
+        {% else %}
+            <li class="nav navbar-nav navbar-right"><a class ="btn btn-primary" href="{% url 'index:login' %}?form={{ request.get_full_path }}" style="display: inline;color: #2b2b36">登录</a>
+                <a class ="btn btn-danger" href="{% url 'index:register' %}?form={{ request.get_full_path }}" style="display: inline;color: #2b2b36">注册</a>
+            </li>
+        {% endif %}
+	</ul>
+
+			 勤记录 懂分享</div>
+  <div class="navbar-header">
+	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar" aria-expanded="false"> <span class="sr-only"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+	<h1 class="logo hvr-bounce-in"><a href="{% url 'index:index' %}" title="YLZ个人博客"><img src="../../static/images/logo.png" alt="YLZ个人博客"></a></h1>
+  </div>
+  <div class="collapse navbar-collapse" id="header-navbar">
+	<ul class="nav navbar-nav navbar-right">
+	  <li><a data-cont="YLZ-Blog主题" title="YLZ-Blog主题" href="{% url 'index:index' %}">首页</a></li>
+	  <li><a data-cont="YLZ-Bolg主题" title="YLZ-Bolg主题" href="{% url 'blog:blog' %}" >YLZ-Blog主题</a></li>
+	  <li><a data-cont="IT技术笔记" title="IT技术笔记" href="{% url 'blog:code' %}" >IT技术笔记</a></li>
+	  <li><a data-cont="财经主题" title="财经主题" href="{% url 'blog:economic' %}" >财经主题</a></li>
+	  <li><a data-cont="五味生活" title="五味生活" href="{% url 'blog:life' %}" >五味生活</a></li>
+	  <li><a data-cont="资讯分享" title="资讯分享" href="{% url 'blog:news' %}" >资讯分享</a></li>
+	</ul>
+  </div>
+</div>
+</nav>
+</header>
+
+{% block main %}{% endblock %}
+
+<script src="http://static.tctip.com/tctip-1.0.0.min.js"></script>
+  <script>
+  new tctip({
+    top: '20%',
+    button: {
+      id: 9,
+      type: 'dashang',
+    },
+    list: [
+      {
+        type: 'alipay',
+        qrImg: '../../static/images/zhifubao.png'
+      }, {
+        type: 'wechat',
+        qrImg: '../../static/images/weixin.png'
+      }
+    ]
+  }).init()
+  </script>
+
+{% block aside %}{% endblock %}
+
+<div class="widget widget_hot">
+	  <h3>热门文章推荐</h3>
+	  <ul>
+            {% for blog in blog_all %}
+			<li><a title="{{ blog.title }}" href="{% url 'blog:show' blog.id %}" ><span class="thumbnail">
+                {% if blog.img_url.url != "" %}
+				    <img class="thumb" data-original="{{ blog.img_url.url }}" src="{{ blog.img_url.url }}" alt="{{ blog.title }}"  style="display: block;">
+                {% else %}
+                    <img class="thumb" data-original="../../static/images/YLZ个人博客.png" src="../../static/images/YLZ个人博客.png" alt="{{ blog.title }}"  style="display: block;">
+                 {% endif %}
+			</span><span class="text">{{ blog.title }}</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
+				{{ blog.created_time |date:"Y-m-d" }}
+			</span><span class="muted"><i class="glyphicon glyphicon-globe"></i>{{ blog.author }}</span></a></li>
+            {% endfor %}
+	  </ul>
+ </div>
+ <div class="widget widget_sentence">    
+	<a href="{% url 'blog:life' %}" target="_blank"  title="专业网站建设" >
+	<img style="width: 100%" src="../../static/images/201610241224221511.jpg" alt="专业网站建设" ></a>
+ </div>
+ <div class="widget widget_sentence">    
+	<a href="#" target="_blank" rel="nofollow" title="YLZ个人博客--勤记录 懂分享" >
+	<img style="width: 100%" src="../../static/images/ad.png" alt="YLZ个人博客--勤记录 懂分享" ></a>
+ </div>
+<div class="widget widget_sentence">
+  <h3>友情链接</h3>
+  <div class="widget-sentence-link">
+	<a href="{% url 'blog:news' %}" title="网站建设" target="_blank" >网站建设</a>&nbsp;&nbsp;&nbsp;
+  </div>
+</div>
+</aside>
+</section>
+<footer class="footer">
+<div class="container">
+<p>Copyright &copy; 2019.Company name All rights reserved.<a  href="#">   YLZ 个人博客--勤记录 懂分享</a></p><br>
+<p>网站的文章大部分来自网络，如果有侵犯您的权益，请联系站长。</p>
+</div>
+<div id="gotop"><a class="gotop"></a></div>
+</footer>
+<script src="../../static/js/jquery.ias.js"></script>
+<script src="../../static/js/bootstrap.min.js"></script>
+<script src="../../static/js/scripts.js"></script>
+{% block script_extends %}{% endblock %}
+
+</body>
+</html>

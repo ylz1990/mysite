@@ -1,0 +1,22 @@
+{% extends "index/base2.html" %}
+{% block title %}
+<title>标签云 - YLZ-Blog</title>
+{% endblock %}
+
+{% block main %}
+    <div class="panel panel-default">
+        <div class="panel-heading" style="text-align: center">
+            <h3 class="panel-title"><b>标签云</b></h3>
+        </div>
+
+        <div class="panel-body">
+            <div class="article-tags" >
+              {% for tag in tags %}
+                <a href="{% url 'blog:list' %}?tag={{ tag }}" rel="tag" style="margin: 8px;font-size: 15px">{{ tag.name }}</a>
+              {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
