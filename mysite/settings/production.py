@@ -98,7 +98,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mysite_db',  # 你的数据库名称 数据库需要自己提前建好
         'USER': 'ylz_blog',  # 你的数据库用户名
-        'PASSWORD': "DATABASE_PASSWORD",  # 你的数据库密码
+        'PASSWORD': DATABASE_PASSWORD,  # 你的数据库密码
         'HOST': 'localhost',  # 你的数据库主机，留空默认为localhost
         'PORT': '3306',  # 你的数据库端口
     }
