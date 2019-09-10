@@ -22,7 +22,7 @@ sys.path.insert(1, os.path.join(BASE_DIR, 'apps'))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["SECRET_KEY"]
+SECRET_KEY = 's8+b_+s(j_u&cl*9&9_a*h1#v7=^yy(!qct#&dv0i6i3be#a&o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -90,7 +90,6 @@ DATABASES = {
 	    }
 }	
 '''
-DATABASE_PASSWORD = os.environ["DATABASE_PASSWORD"]
 DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',
@@ -98,7 +97,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mysite_db',  # 你的数据库名称 数据库需要自己提前建好
         'USER': 'ylz_blog',  # 你的数据库用户名
-        'PASSWORD': DATABASE_PASSWORD,  # 你的数据库密码
+        'PASSWORD': "ylz_blog8888",  # 你的数据库密码
         'HOST': 'localhost',  # 你的数据库主机，留空默认为localhost
         'PORT': '3306',  # 你的数据库端口
     }
@@ -173,7 +172,7 @@ CKEDITOR_CONFIGS = {
     }
 }
 
-EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
+#EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
 # 发送邮件设置
 # https://docs.djangoproject.com/en/2.0/ref/settings/#email
 # https://docs.djangoproject.com/en/2.0/topics/email/
@@ -181,6 +180,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = '827937539@qq.com'
-EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD  # 授权码
+EMAIL_HOST_PASSWORD = "mwldpkxgqxulbfia"  # 授权码
 EMAIL_SUBJECT_PREFIX = '[YLZ个人博客] '
 EMAIL_USE_TLS = True  # 与SMTP服务器通信时，是否启动TLS链接(安全链接)
