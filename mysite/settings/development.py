@@ -24,7 +24,6 @@ sys.path.insert(1, os.path.join(BASE_DIR, 'apps'))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 's8+b_+s(j_u&cl*9&9_a*h1#v7=^yy(!qct#&dv0i6i3be#a&o'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
@@ -83,13 +82,14 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-'''
+
 DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.sqlite3',
          'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 	    }
-}	
+}
+
 '''
 DATABASES = {
     'default': {
@@ -103,7 +103,7 @@ DATABASES = {
         'PORT': '3306',  # 你的数据库端口
     }
 }
-
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
