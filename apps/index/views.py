@@ -297,3 +297,20 @@ def forgot_password(request):
     context['form'] = form
     context['return_back_url'] = redirect_to
     return render(request, 'index/forgot_password.html', context)
+
+
+class MapView(View):
+    '''
+    站点地图
+    '''
+
+    def get(self, request):
+        article_list = Blogs.objects.all().order_by("-created_time")
+        paginator = Paginator(article_list, 30)
+        page_num = request.GET.get('page', 1)
+        page_of_news = paginator.get_page(page_num)
+        blogs = page_of_news.object_list
+        currentr_page_num = page_of_news.number
+        page_range = [x for x in range(int(currentr_page_num) - 2, int(currentr_page_num) + 3) if
+                      0 < x <= paginator.num_pages]
+        return render(request, "index/map.html", locals())

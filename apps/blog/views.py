@@ -105,7 +105,7 @@ class BlogShowView(View):
         blog = get_object_or_404(Blogs,id=blog_id)
         tags = blog.tags.all()
         content = ",".join([ str(tag.name) for tag in tags])
-        blog_all = Blogs.objects.all().order_by("?")[:8]  # 推荐的文章
+        blog_all = Blogs.objects.all().order_by("-read_num")[:8]  # 推荐的文章
         blogs = Blogs.objects.all().order_by("?")[:8]
         news = Blogs.objects.all()
         # 上一篇

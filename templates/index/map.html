@@ -1,0 +1,50 @@
+{% extends "index/base2.html" %}
+{% block title %}
+<title>站点地图 - YLZ-Blog</title>
+{% endblock %}
+
+{% block main %}
+    <div class="content-wrap">
+        <div class="content">
+            <div class="row">
+                {% for blog in blogs %}
+                    <h2><a href="{% url 'blog:show' blog.id %}" title={{ blog.title }} target="_blank" >【{{ blog.blog_type }}】{{ blog.title }}</a></h2>
+                {% endfor %}
+            </div>
+            <br>
+            <br>
+            <div class="fenye_box">
+              <a href="?page=1" >首页</a>
+                    {#      上一页   has_previous   #}
+                {% if page_of_news.has_previous %}
+                    <a href="?page={{ page_of_news.previous_page_number }}" aria-label="Previous">上一页</a>
+                {% else %}
+                    <a aria-hidden="true">上一页</a>
+                {% endif %}
+                    {#      上一页          #}
+                 {#      全部页码          #}
+                {% for page_num in page_range %}
+                    {% if page_num == page_of_news.number %}
+                        <a  class="on">{{ page_num }}</a>
+                    {% else %}
+                        <a href="?page={{ page_num }}">{{ page_num }}</a>
+                    {% endif %}
+                {% endfor %}
+                {#      全部页码          #}
+                {#      下一页          #}
+                {% if page_of_news.has_next %}
+                    <a href="?page={{ page_of_news.next_page_number }}" aria-label="Next">下一页</a>
+                {% else %}
+                    <a aria-hidden="true">下一页</a>
+                {% endif %}
+                {#      下一页          #}
+                     {#   尾页就是获取就大的页码数   #}
+               <a href="?page={{ paginator.num_pages }}">尾页</a>
+       </div>
+    </div>
+        <div class="clear"></div>
+        </div>
+
+    </div>
+
+{% endblock %}
