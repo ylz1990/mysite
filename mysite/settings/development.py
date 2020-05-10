@@ -22,7 +22,7 @@ sys.path.insert(1, os.path.join(BASE_DIR, 'apps'))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["SECRET_KEY"]
+SECRET_KEY = 's8+b_+s(j_u&cl*9&9_a*h1#v7=^yy(!qct#&dv0i6i3be#a&o'
 
 
 DEBUG = True
@@ -174,7 +174,7 @@ CKEDITOR_CONFIGS = {
         'resize_enabled': False,
     }
 }
-EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
+# EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
 #EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
 # 发送邮件设置
 # https://docs.djangoproject.com/en/2.0/ref/settings/#email
@@ -183,6 +183,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = '827937539@qq.com'
-EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD # 授权码
+EMAIL_HOST_PASSWORD = 'mwldpkxgqxulbfia' # 授权码
 EMAIL_SUBJECT_PREFIX = '[YLZ个人博客] '
 EMAIL_USE_TLS = True  # 与SMTP服务器通信时，是否启动TLS链接(安全链接)
