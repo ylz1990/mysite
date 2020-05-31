@@ -24,6 +24,7 @@ class Blogs(models.Model):
     img_url = models.ImageField(upload_to='blog', default="", blank=True)  # upload_to指定图片上传的途径，如果不存在则自动创建
     tags = TaggableManager()
     is_delete = models.BooleanField(default=False, verbose_name='逻辑删除', help_text="逻辑删除")
+    # is_delete = models.BooleanField(default=False, verbose_name='逻辑删除')
 
 
     def __str__(self):
