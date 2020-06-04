@@ -18,6 +18,9 @@ from django.urls import path,include
 from django.conf.urls.static import  static
 from django.conf import settings
 
+admin.site.site_title = 'YLZ-个人博客管理系统'
+admin.site.site_header = 'YLZ-个人博客管理系统'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('index.urls')),
