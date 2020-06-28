@@ -1,4 +1,6 @@
 {% extends "index/base2.html" %}
+{% load static %}
+{% load user_tags %}
 {% block title %}
 <title>登录 -- YLZ个人博客</title>
 {% endblock %}
@@ -25,7 +27,12 @@
                            <input class="btn btn-primary pull-right" type="submit" value="登录">
                         </form>
                     </div>
+                <a href="{% get_login_qq_url %}">
+                    <img src="../../static/images/qq_logo.png" alt="QQ登录">
+                    使用QQ账号登录
+                </a>
                 </div>
+
             {% else %}
                    <h2><span>已登录，正在跳转到首页......</span></h2><br>
                     <script type="text/javascript">

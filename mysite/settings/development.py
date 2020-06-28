@@ -155,7 +155,11 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 配置ckeditor
-CKEDITOR_UPLOAD_PATH = 'upload/'
+# CKEDITOR_UPLOAD_PATH = 'upload/'
+CKEDITOR_UPLOAD_PATH = ''  # 图片ckeditor文件上传路径, 这里使用七牛云存储，不填
+CKEDITOR_JQUERY_URL = '//cdn.bootcss.com/jquery/1.11.3/jquery.min.js'
+# CKEDITOR_IMAGE_BACKEND = 'pillow'  # 注释掉就是禁止生成缩略图，传七牛云要注释掉
+DEFAULT_FILE_STORAGE = 'blog.ckeditor_storage.StorageObject'  # app名称.app下的文件名称.类名
 
 CKEDITOR_CONFIGS = {
     'default': {},
@@ -187,3 +191,13 @@ EMAIL_HOST_USER = '827937539@qq.com'
 EMAIL_HOST_PASSWORD = 'mwldpkxgqxulbfia' # 授权码
 EMAIL_SUBJECT_PREFIX = '[YLZ个人博客] '
 EMAIL_USE_TLS = True  # 与SMTP服务器通信时，是否启动TLS链接(安全链接)
+
+QQ_APP_ID = 101883649
+QQ_REDIRECT_URL = "https://www.yeliangzhen.com/login_by_qq"
+QQ_STATE = "yeliangzhen"
+
+# 七牛云相关配置
+QINIU_ACCESS_KEY = 'ahfe5fPb9iok7idyVd82YVvjC69WvAKhtEO6h0HU'
+QINIU_SECRET_KEY = 'JgOy2F-9F5y3daa0dUNonHZC6fmkaU-oZdXOtk1M'
+QINIU_BUCKET_DOMAIN = 'cache.yeliangzhen.com'
+QINIU_BUCKET_NAME = 'weiduo-picture'
